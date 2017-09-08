@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace CPIWFM
 {
-    public class SchedulesResult
+
+    public class SchedulesResultList
+    {
+        public ScheduleResult ScheduleResult;
+    }
+
+    public class ScheduleResult
     {
         public List<Schedules> Schedules { get; set; }
     }
 
     public class Schedules
     {
-        public int ContractTimeMinutes { get; set; }
+        public int ContractTimeMinutes { get; private set; }
 
         public DateTime Date { get; set; }
 
@@ -23,7 +29,7 @@ namespace CPIWFM
 
         public string PersonId { get; set; }
 
-        public List<Projection> PersonPerjection { get; set; }
+        public List<Projection> Projection { get; set; }
 
         public List<DateTime> lstWorkTime
         {

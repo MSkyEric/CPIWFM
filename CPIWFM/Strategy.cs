@@ -27,7 +27,8 @@ namespace CPIWFM
             DateTime dtToday = DateTime.Parse("2015-12-14");
             this.PerDayTimeRange = DataFeed.GetWholeDayTimeRangeByDate(dtToday);
         }
-        
+
+        private static readonly object oObject = new object();
         public override void AlgorithmForTheStrategy()
         {
             this.sMessage = "";
@@ -38,10 +39,13 @@ namespace CPIWFM
                 int iSchedulesCount = this.oSchedules.Count;
                 Parallel.For(0, iSchedulesCount, (i) =>
                 {
-                    if (this.oSchedules[i].lstWorkTime.Contains(dtTmp))
+                    lock (oObject)
                     {
-                        //Console.WriteLine("{0}, Thread ID {1} ,dtTmp = {2}, Person={3} ", i, Thread.CurrentThread.ManagedThreadId, dtTmp.ToString(), this.oSchedules[i].Name);
-                        iCount++;
+                        if (this.oSchedules[i].lstWorkTime.Contains(dtTmp))
+                        {
+                            //Console.WriteLine("{0}, Thread ID {1} ,dtTmp = {2}, Person={3} ", i, Thread.CurrentThread.ManagedThreadId, dtTmp.ToString(), this.oSchedules[i].Name);
+                            iCount++;
+                        }
                     }
                 });
 
@@ -54,7 +58,7 @@ namespace CPIWFM
 
             this.sMessage = this.sMessage.Length == 0 ? "No Result!" : this.sMessage;
 
-        }       
+        }
 
     }
 }

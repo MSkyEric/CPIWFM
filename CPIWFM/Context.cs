@@ -8,7 +8,7 @@ namespace CPIWFM
 {
     class Context
     {
-        Strategy oStrategy;
+        private Strategy oStrategy;
         public Context(Strategy oStrategy)
         {
             this.oStrategy = oStrategy;
